@@ -54,6 +54,7 @@
 
         .form-group {
             margin-bottom: 20px;
+            position: relative;
         }
 
         .form-group label {
@@ -78,6 +79,21 @@
             outline: none;
             border-color: #0d4d10;
             box-shadow: 0 0 5px rgba(21, 106, 24, 0.3);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 38px;
+            cursor: pointer;
+            color: #156a18;
+            font-size: 1.2em;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .toggle-password:hover {
+            color: #0d4d10;
         }
 
         .login-button {
@@ -753,15 +769,12 @@
             <p class="tagline">Login to view the Investment Brief</p>
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required placeholder="admin@emrchains.com">
-                </div>
-                <div class="form-group">
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" required placeholder="••••••••">
+                    <span class="toggle-password" onclick="togglePassword()">👁️</span>
                 </div>
                 <button type="submit" class="login-button">Login</button>
-                <div class="error-message" id="errorMessage">Invalid email or password</div>
+                <div class="error-message" id="errorMessage">Invalid password</div>
             </form>
         </div>
     </div>
@@ -1243,17 +1256,28 @@
     </div>
 
     <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.querySelector('.toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '👁️';
+            }
+        }
+
         function handleLogin(event) {
             event.preventDefault();
             
-            const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
-            // Hardcoded credentials
-            const validEmail = 'admin@emrchains.com';
-            const validPassword = 'password123';
+            // Hardcoded password
+            const validPassword = 'Emrchains@investment';
             
-            if (email === validEmail && password === validPassword) {
+            if (password === validPassword) {
                 // Hide login, show content
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('contentContainer').classList.add('show');
